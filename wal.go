@@ -610,15 +610,9 @@ func loadNextBinaryEntry(data []byte) (n int, err error) {
 // loadSegment loads the segment entries into memory, pushes it to the front
 // of the lru cache, and returns it.
 func (l *Log) loadSegment(index uint64) (*segment, error) {
-	// check the last segment first.
-	lseg := l.segments[len(l.segments)-1]
-	if index >= lseg.index {
-		return lseg, nil
-	}
-	// check the most recent cached segment
-	rseg := l.findSegmentInCache(index)
-	if rseg != nil {
-		return rseg, nil
+	seg := l.findSegmentInMemory(index)
+	if seg != nil {
+		return seg, nil
 	}
 	// find in the segment array
 	idx := l.findSegment(index)
@@ -634,15 +628,22 @@ func (l *Log) loadSegment(index uint64) (*segment, error) {
 	return s, nil
 }
 
-// IsInCache returns entry is in cache or not
-func (l *Log) IsInCache(index uint64) bool {
+// IsInMemory returns entry is in memory or not
+func (l *Log) IsInMemory(index uint64) bool {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
 
-	return l.findSegmentInCache(index) != nil
+	return l.findSegmentInMemory(index) != nil
 }
 
-func (l *Log) findSegmentInCache(index uint64) *segment {
+func (l *Log) findSegmentInMemory(index uint64) *segment {
+	// check the last segment first.
+	lseg := l.segments[len(l.segments)-1]
+	if index >= lseg.index {
+		return lseg
+	}
+
+	// check the most recent cached segment
 	var rseg *segment
 	l.scache.Range(func(_, v interface{}) bool {
 		s := v.(*segment)
