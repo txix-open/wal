@@ -1,5 +1,5 @@
 # `wal`
-[![GoDoc](https://godoc.org/github.com/tidwall/wal?status.svg)](https://godoc.org/github.com/tidwall/wal)
+[![GoDoc](https://godoc.org/github.com/integration-system/wal?status.svg)](https://godoc.org/github.com/integration-system/wal)
 
 A simple and fast write ahead log for Go.
 
@@ -18,7 +18,7 @@ A simple and fast write ahead log for Go.
 To start using `wal`, install Go and run `go get`:
 
 ```sh
-$ go get -u github.com/tidwall/wal
+$ go get -u github.com/integration-system/wal
 ```
 
 This will retrieve the library.
