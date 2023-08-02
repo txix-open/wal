@@ -616,14 +616,7 @@ func (l *Log) loadSegment(index uint64) (*segment, error) {
 		return lseg, nil
 	}
 	// check the most recent cached segment
-	var rseg *segment
-	l.scache.Range(func(_, v interface{}) bool {
-		s := v.(*segment)
-		if index >= s.index && index < s.index+uint64(len(s.epos)) {
-			rseg = s
-		}
-		return false
-	})
+	rseg := l.findSegmentInCache(index)
 	if rseg != nil {
 		return rseg, nil
 	}
@@ -639,6 +632,26 @@ func (l *Log) loadSegment(index uint64) (*segment, error) {
 	// push the segment to the front of the cache
 	l.pushCache(idx)
 	return s, nil
+}
+
+// IsInCache returns entry is in cache or not
+func (l *Log) IsInCache(index uint64) bool {
+	l.mu.RLock()
+	defer l.mu.RUnlock()
+
+	return l.findSegmentInCache(index) != nil
+}
+
+func (l *Log) findSegmentInCache(index uint64) *segment {
+	var rseg *segment
+	l.scache.Range(func(_, v interface{}) bool {
+		s := v.(*segment)
+		if index >= s.index && index < s.index+uint64(len(s.epos)) {
+			rseg = s
+		}
+		return false
+	})
+	return rseg
 }
 
 // Read an entry from the log. Returns a byte slice containing the data entry.
