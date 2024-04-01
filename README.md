@@ -1,5 +1,5 @@
 # `wal`
-[![GoDoc](https://godoc.org/github.com/integration-system/wal?status.svg)](https://godoc.org/github.com/integration-system/wal)
+[![GoDoc](https://godoc.org/github.com/txix-open/wal?status.svg)](https://godoc.org/github.com/txix-open/wal)
 
 A simple and fast write ahead log for Go.
 
@@ -18,7 +18,7 @@ A simple and fast write ahead log for Go.
 To start using `wal`, install Go and run `go get`:
 
 ```sh
-$ go get -u github.com/integration-system/wal
+$ go get -u github.com/txix-open/wal
 ```
 
 This will retrieve the library.

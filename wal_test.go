@@ -608,7 +608,7 @@ func makeOpts(segSize int, noSync bool, lf LogFormat) *Options {
 	return &opts
 }
 
-// https://github.com/integration-system/wal/issues/1
+// https://github.com/txix-open/wal/issues/1
 func TestIssue1(t *testing.T) {
 	in := []byte{0, 0, 0, 0, 0, 0, 0, 1, 37, 108, 131, 178, 151, 17, 77, 32,
 		27, 48, 23, 159, 63, 14, 240, 202, 206, 151, 131, 98, 45, 165, 151, 67,
