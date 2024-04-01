@@ -1,9 +1,9 @@
-module github.com/integration-system/wal
+module github.com/txix-open/wal
 
-go 1.20
+go 1.22
 
 require (
-	github.com/tidwall/gjson v1.15.0
+	github.com/tidwall/gjson v1.17.1
 	github.com/tidwall/tinylru v1.2.1
 )
 
