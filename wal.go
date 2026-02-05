@@ -133,6 +133,16 @@ type segment struct {
 	epos  []bpos // cached entries positions in buffer
 }
 
+func (s segment) Path() string {
+	return s.path
+}
+
+func (s Segment) FirstIndex() uint64 {
+	return s.index
+}
+
+type Segment = segment
+
 type bpos struct {
 	pos int // byte position
 	end int // one byte past pos
@@ -552,6 +562,13 @@ func (l *Log) findSegment(index uint64) int {
 		}
 	}
 	return i - 1
+}
+
+func (l *Log) FindSegment(index uint64) *Segment {
+	l.mu.RLock()
+	defer l.mu.RUnlock()
+
+	return l.segments[l.findSegment(index)]
 }
 
 func (l *Log) loadSegmentEntries(s *segment) error {
